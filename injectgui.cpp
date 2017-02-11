@@ -130,6 +130,8 @@ BOOL InjectGui::inject( DWORD pId, QString dll )
     HANDLE h = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pId );
     if ( h )
     {
+        if (dll == QFileInfo(dll).fileName())
+            dll = current_path + dll;
         LPSTR dllName = (char*)codec->fromUnicode(dll).toStdString().c_str();
         LPVOID LoadLibAddr = (LPVOID)GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "LoadLibraryA" );
         LPVOID dereercomp = VirtualAllocEx( h, NULL, strlen( dllName ), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE );
